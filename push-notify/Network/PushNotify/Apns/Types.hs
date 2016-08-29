@@ -46,7 +46,7 @@ data APNSConfig = APNSConfig
     {   apnsCredential   :: Credential -- ^ Credentials provided by Apple.
     ,   environment       :: Env           -- ^ One of the possible environments.
     ,   timeoutLimit      :: Int           -- ^ The time to wait for a server response. (microseconds)
-    ,   apnsRetrySettings :: RetrySettings -- ^ How to retry to connect to APNS servers.
+    ,   apnsRetrySettings :: RetryPolicy   -- ^ How to retry to connect to APNS servers.
     }
 
 instance Default APNSConfig where
@@ -54,11 +54,7 @@ instance Default APNSConfig where
         apnsCredential    = undefined
     ,   environment       = Development
     ,   timeoutLimit      = 200000
-    ,   apnsRetrySettings = RetrySettings {
-                                backoff     = True
-                            ,   baseDelay   = 200
-                            ,   numRetries  = limitedRetries 5
-                            }
+    ,   apnsRetrySettings = exponentialBackoff 200 <> limitRetries 5
     }
 
 data APNSManager = APNSManager

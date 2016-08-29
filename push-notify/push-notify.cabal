@@ -18,13 +18,9 @@ cabal-version:       >=1.8
 
 
 library
-  exposed-modules:   Network.PushNotify.Gcm
-                   , Network.PushNotify.Gcm.Types
-                   , Network.PushNotify.Apns
+  exposed-modules:   Network.PushNotify.Apns
 
-  other-modules:     Network.PushNotify.Gcm.Constants
-                   , Network.PushNotify.Gcm.Send
-                   , Network.PushNotify.Apns.Constants
+  other-modules:     Network.PushNotify.Apns.Constants
                    , Network.PushNotify.Apns.Send
                    , Network.PushNotify.Apns.Types
 
@@ -50,7 +46,7 @@ library
                    , mtl                  >=2.1
                    , network              >=2.4
                    , resourcet            >=0.4
-                   , retry                >=0.3 && < 0.5
+                   , retry                >=0.3
                    , stm                  >=2.4
                    , text                 >=0.11
                    , time                 >=1.4
