@@ -25,7 +25,6 @@ import Control.Concurrent.STM.TChan
 import Control.Monad.Writer
 import Control.Retry
 import Data.Aeson.Types
-import Data.Certificate.X509                (X509)
 import Data.Default
 import qualified Data.HashMap.Strict        as HM
 import qualified Data.HashSet               as HS
@@ -46,7 +45,7 @@ data APNSConfig = APNSConfig
     {   apnsCredential   :: Credential -- ^ Credentials provided by Apple.
     ,   environment       :: Env           -- ^ One of the possible environments.
     ,   timeoutLimit      :: Int           -- ^ The time to wait for a server response. (microseconds)
-    ,   apnsRetrySettings :: RetryPolicy   -- ^ How to retry to connect to APNS servers.
+    ,   apnsRetrySettings :: RetryPolicyM IO -- ^ How to retry to connect to APNS servers.
     }
 
 instance Default APNSConfig where

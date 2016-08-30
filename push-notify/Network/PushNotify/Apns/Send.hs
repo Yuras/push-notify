@@ -76,7 +76,7 @@ connectAPNS config = do
                     Local       -> connectTo cLOCAL_URL
                                            $ PortNumber $ fromInteger cLOCAL_PORT
         rng     <- RNG.makeSystem
-        ctx     <- contextNewOnHandle handle (connParams (apnsHost config) (apnsCredential config)) rng
+        ctx     <- contextNewOnHandle handle (connParams (apnsHost config) (apnsCredential config))
         handshake ctx
         return ctx
 
@@ -123,7 +123,7 @@ sendAPNS m msg = do
 -- 'apnsWorker' starts the main worker thread.
 apnsWorker :: APNSConfig -> TChan (MVar (Maybe (Chan Int,Int)) , APNSmessage) -> IO ()
 apnsWorker config requestChan = do
-        ctx        <- recoverAll (apnsRetrySettings config) $ connectAPNS config -- retry to connect to APNS server
+        ctx        <- recoverAll (apnsRetrySettings config) $ (\_ -> connectAPNS config) -- retry to connect to APNS server
         errorChan  <- newChan -- new Error Channel.
         lock       <- newMVar ()
         
@@ -231,7 +231,7 @@ connectFeedBackAPNS config = do
                     Local       -> connectTo cLOCAL_FEEDBACK_URL
                                            $ PortNumber $ fromInteger cLOCAL_FEEDBACK_PORT
         rng     <- RNG.makeSystem
-        ctx     <- contextNewOnHandle handle (connParams (apnsHost config) (apnsCredential config)) rng
+        ctx     <- contextNewOnHandle handle (connParams (apnsHost config) (apnsCredential config))
         handshake ctx
         return ctx
 
