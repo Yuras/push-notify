@@ -20,7 +20,6 @@ import qualified Data.HashMap.Strict    as HM
 import qualified Data.HashSet           as HS
 import Data.Aeson.Types
 import Data.Default
-import Data.Monoid
 import Data.Text
 
 
