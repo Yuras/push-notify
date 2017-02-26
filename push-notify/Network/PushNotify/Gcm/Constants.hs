@@ -33,6 +33,9 @@ cRESTRICTED_PACKAGE_NAME = "restricted_package_name"
 cDRY_RUN :: Text
 cDRY_RUN = "dry_run"
 
+cPriority :: Text
+cPriority = "priority"
+
 -- Fields for a JSON response to a sucessful request.
 
 cMULTICAST_ID :: Text

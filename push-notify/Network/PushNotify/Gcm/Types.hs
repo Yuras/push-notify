@@ -45,6 +45,7 @@ data GCMmessage = GCMmessage
     ,   delay_while_idle        :: Bool
     ,   time_to_live            :: Maybe Int
     ,   restricted_package_name :: Maybe Text
+    ,   priority                :: Maybe Text
     ,   dry_run                 :: Bool
     } deriving Show
 
@@ -56,6 +57,7 @@ instance Default GCMmessage where
     ,   delay_while_idle        = False
     ,   time_to_live            = Nothing
     ,   restricted_package_name = Nothing
+    ,   priority                = Nothing
     ,   dry_run                 = False
     }
 
@@ -116,3 +118,4 @@ instance ToJSON GCMmessage where
                                          ifNotDef cRESTRICTED_PACKAGE_NAME restricted_package_name msg
                                          ifNotDef cDELAY_WHILE_IDLE delay_while_idle msg
                                          ifNotDef cDRY_RUN dry_run msg
+                                         ifNotDef cPriority priority msg
