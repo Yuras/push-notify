@@ -62,7 +62,8 @@ connParams host cred = ClientParams {
       },
       clientSupported = def {
         supportedCiphers = ciphersuite_all
-      }
+      },
+      clientDebug = def
     }
 
 -- 'connectAPNS' starts a secure connection with APNS servers.
@@ -85,7 +86,7 @@ startAPNS :: APNSConfig -> IO APNSManager
 startAPNS config = do
         c       <- newTChanIO
         ref     <- newIORef $ Just ()
-        tID     <- forkIO $ CE.catch (apnsWorker config c) (\(e :: CE.SomeException) ->
+        tID     <- forkIO $ CE.catch (apnsWorker config c) (\(e :: CE.SomeException) -> print e >>
                                                               atomicModifyIORef ref (\_ -> (Nothing,())))
         return $ APNSManager ref c tID $ timeoutLimit config
 
@@ -142,12 +143,12 @@ apnsWorker config requestChan = do
                                         -- 0 -> internal worker error.
                                         -- n -> the identifier received in an error msg.
                                         --      This represent the last message that was successfully sent.
-        CE.catch (contextClose ctx) (\(e :: CE.SomeException) -> return ())
+        CE.catch (contextClose ctx) (\(e :: CE.SomeException) -> print e >> return ())
         apnsWorker config requestChan -- restarts.
 
         where
             catch :: IO Int -> IO Int
-            catch m = CE.catch m (\(e :: CE.SomeException) -> return 0)
+            catch m = CE.catch m (\(e :: CE.SomeException) -> print e >> return 0)
 
             sender  :: Int32
                     -> MVar ()
